@@ -1,0 +1,2 @@
+pnpm write
+pnpm lint-staged
