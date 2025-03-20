@@ -101,7 +101,6 @@ export default defineConfig({
     scopeOverrides: undefined,
     defaultBody: '',
     defaultIssues: '',
-    defaultScope: ['test'],
     defaultSubject: ''
   }
 })
