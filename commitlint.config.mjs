@@ -1,5 +1,16 @@
 import { defineConfig } from 'cz-git'
 
+import { execSync } from 'node:child_process'
+
+const scopeComplete = execSync('git status --porcelain || true')
+	.toString()
+	.trim()
+	.split('\n')
+	.find((r) => ~r.indexOf('M  src') || ~r.indexOf('M src'))
+	?.replace(/(\/cmd\/)/g, '%%')
+	?.match(/src%%((\w|-)*)/)?.[1]
+
+/** @type {import('cz-git').UserConfig} */
 export default defineConfig({
 	extends: ['@commitlint/config-conventional'],
 	prompt: {
@@ -97,7 +108,8 @@ export default defineConfig({
 		scopeOverrides: undefined,
 		defaultBody: '',
 		defaultIssues: '',
-		defaultScope: ['test'],
+		defaultScope: scopeComplete,
+		customScopesAlign: !scopeComplete ? 'top-bottom' : 'bottom',
 		defaultSubject: ''
 	}
 })
