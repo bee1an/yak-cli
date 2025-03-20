@@ -1,38 +1,38 @@
-const fs = require("fs");
+const fs = require('fs')
 
-const path = require("path");
+const path = require('path')
 
-const readmePrefix = require("./prefix");
-const { cmdPath, readmePath } = require("../paths");
+const readmePrefix = require('./prefix')
+const { cmdPath, readmePath } = require('../paths')
 
-fs.writeFileSync(readmePath, readmePrefix);
+fs.writeFileSync(readmePath, readmePrefix)
 
 fs.readdirSync(cmdPath).forEach((file) => {
-  const cmd = path.join(cmdPath, file, "index.js");
+	const cmd = path.join(cmdPath, file, 'index.js')
 
-  const content = fs.readFileSync(cmd).toString();
+	const content = fs.readFileSync(cmd).toString()
 
-  const comment = content.match(/\/\*\*([\s\S]*?)\*\//)[0];
+	const comment = content.match(/\/\*\*([\s\S]*?)\*\//)[0]
 
-  let descriptions = comment.split("\n").slice(1, -1);
+	let descriptions = comment.split('\n').slice(1, -1)
 
-  const cmdTitle = `\n### [${file}](/src/cmd/${file}/index.js)\n\n`;
+	const cmdTitle = `\n### [${file}](/src/cmd/${file}/index.js)\n\n`
 
-  const cmdDes = descriptions.splice(0, 1)[0].replace(" * ", "") + "\n";
+	const cmdDes = descriptions.splice(0, 1)[0].replace(' * ', '') + '\n'
 
-  descriptions = descriptions.map((des) => {
-    return des.replace(" * ", "");
-  });
+	descriptions = descriptions.map((des) => {
+		return des.replace(' * ', '')
+	})
 
-  let codeSchema = false;
+	let codeSchema = false
 
-  const detail = descriptions.reduce((pre, cur) => {
-    const codeLine = cur.startsWith("```");
+	const detail = descriptions.reduce((pre, cur) => {
+		const codeLine = cur.startsWith('```')
 
-    codeLine && (codeSchema = !codeSchema);
+		codeLine && (codeSchema = !codeSchema)
 
-    return pre + (codeSchema || codeLine ? "" : "- ") + cur + "\n";
-  }, "\n");
+		return pre + (codeSchema || codeLine ? '' : '- ') + cur + '\n'
+	}, '\n')
 
-  fs.appendFileSync(readmePath, cmdTitle + cmdDes + detail);
-});
+	fs.appendFileSync(readmePath, cmdTitle + cmdDes + detail)
+})

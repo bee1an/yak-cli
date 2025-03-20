@@ -1,5 +1,5 @@
-const fileExistsSync = require("./fileExistsSync");
+const fileExistsSync = require('./fileExistsSync')
 
 module.exports = {
-  fileExistsSync,
-};
+	fileExistsSync
+}

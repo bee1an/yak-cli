@@ -1,34 +1,35 @@
 {
-  "name": "yak-cmd",
-  "version": "1.0.0",
-  "description": "some cmd tools",
-  "main": "index.js",
-  "type": "commonjs",
-  "scripts": {
-    "write": "node ./scripts/update-readme/index.js && pnpm prettier --write README.md",
-    "prepare": "husky"
-  },
-  "bin": {
-    "yak-commitize": "./src/cmd/commitize/index.js",
-    "yak-gitignore": "./src/cmd/gitignore/index.js"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "MIT",
-  "devDependencies": {
-    "@commitlint/cli": "19.8.0",
-    "@commitlint/config-conventional": "19.8.0",
-    "cz-git": "1.11.1",
-    "husky": "9.1.7",
-    "lint-staged": "15.5.0",
-    "prettier": "3.5.3"
-  },
-  "lint-staged": {
-    "*.{js,ts,tsx}": [
-      "prettier --write"
-    ],
-    "*.md": [
-      "prettier --write --parser markdown --prose-wrap never"
-    ]
-  }
+	"name": "yak-cmd",
+	"version": "1.0.0",
+	"description": "some cmd tools",
+	"main": "index.js",
+	"type": "commonjs",
+	"scripts": {
+		"write": "node ./scripts/update-readme/index.js && pnpm prettier --write README.md",
+		"prepare": "husky",
+		"prettier": "prettier --write ."
+	},
+	"bin": {
+		"yak-commitize": "./src/cmd/commitize/index.js",
+		"yak-gitignore": "./src/cmd/gitignore/index.js"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "MIT",
+	"devDependencies": {
+		"@commitlint/cli": "19.8.0",
+		"@commitlint/config-conventional": "19.8.0",
+		"cz-git": "1.11.1",
+		"husky": "9.1.7",
+		"lint-staged": "15.5.0",
+		"prettier": "3.5.3"
+	},
+	"lint-staged": {
+		"*.{js,ts,tsx}": [
+			"prettier --write"
+		],
+		"*.md": [
+			"prettier --write --parser markdown --prose-wrap never"
+		]
+	}
 }

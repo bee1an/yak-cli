@@ -15,102 +15,94 @@
  * lint-staged 配置参考了 naive-ui
  */
 
-const fs = require("fs");
-const path = require("path");
-const { execSync } = require("child_process");
-const { fileExistsSync } = require("../../utils");
+const fs = require('fs')
+const path = require('path')
+const { execSync } = require('child_process')
+const { fileExistsSync } = require('../../utils')
 const {
-  commitlintConfigMjs,
-  husky_commitMsg,
-  husky_preCommit,
-  packageJson,
-} = require("./filenames");
-const commitlintConfigMjsTmp = require("./commitlintConfigMjsTmp");
-const { errorIcon, successIcon, loadingIcon } = require("../../icons");
-const dependencies = require("./dependencies");
+	commitlintConfigMjs,
+	husky_commitMsg,
+	husky_preCommit,
+	packageJson
+} = require('./filenames')
+const commitlintConfigMjsTmp = require('./commitlintConfigMjsTmp')
+const { errorIcon, successIcon, loadingIcon } = require('../../icons')
+const dependencies = require('./dependencies')
 
-const execPath = process.cwd();
+const execPath = process.cwd()
 
 /* 文件检测 */
-const existCommitlint = fileExistsSync(
-  path.join(execPath, commitlintConfigMjs),
-);
+const existCommitlint = fileExistsSync(path.join(execPath, commitlintConfigMjs))
 
-const existHusky = fileExistsSync(path.join(execPath, ".husky"));
+const existHusky = fileExistsSync(path.join(execPath, '.husky'))
 
-const existPackageJson = fileExistsSync(path.join(execPath, packageJson));
+const existPackageJson = fileExistsSync(path.join(execPath, packageJson))
 
-!existPackageJson &&
-  console.log(`${errorIcon} package.json not found, please run init first`);
+!existPackageJson && console.log(`${errorIcon} package.json not found, please run init first`)
 
-existCommitlint &&
-  console.log(`${errorIcon} commitlint.config.mjs already exists`);
+existCommitlint && console.log(`${errorIcon} commitlint.config.mjs already exists`)
 
-existHusky && console.log(`${errorIcon} husky already exists`);
+existHusky && console.log(`${errorIcon} husky already exists`)
 
-if (existCommitlint || existHusky || !existPackageJson) process.exit(0);
+if (existCommitlint || existHusky || !existPackageJson) process.exit(0)
 
 /* 依赖安装 */
-console.log(`${loadingIcon} installing ${dependencies.join(" ")}`);
+console.log(`${loadingIcon} installing ${dependencies.join(' ')}`)
 
-execSync(`pnpm add ${dependencies.join(" ")} -D -E`, { stdio: "inherit" });
+execSync(`pnpm add ${dependencies.join(' ')} -D -E`, { stdio: 'inherit' })
 
-execSync("npx husky init");
+execSync('npx husky init')
 
-fs.writeFileSync(husky_commitMsg, 'commitlint --edit "$1"');
+fs.writeFileSync(husky_commitMsg, 'commitlint --edit "$1"')
 
-fs.writeFileSync("commitlint.config.mjs", commitlintConfigMjsTmp);
+fs.writeFileSync('commitlint.config.mjs', commitlintConfigMjsTmp)
 
 /* 依赖检测 */
-let pkg = require(path.join(execPath, packageJson));
+let pkg = require(path.join(execPath, packageJson))
 
 const lintStagedValue = {
-  "*.{js,ts,tsx}": [],
-  "*.vue": [],
-  "*.css": [],
-  "*.md": [],
-};
-
-if (pkg.dependencies?.["eslint"] || pkg.devDependencies?.["eslint"]) {
-  ["*.{js,ts,tsx}", "*.vue", "*.md"].forEach((key) => {
-    lintStagedValue[key].push("eslint --fix");
-  });
+	'*.{js,ts,tsx}': [],
+	'*.vue': [],
+	'*.css': [],
+	'*.md': []
 }
 
-if (pkg.dependencies?.["prettier"] || pkg.devDependencies?.["prettier"]) {
-  lintStagedValue["*.{js,ts,tsx}"].push("prettier --write");
-  lintStagedValue["*.vue"].push("prettier --parser=vue --write");
-  lintStagedValue["*.css"].push("prettier --write");
-  lintStagedValue["*.md"].push(
-    "prettier --write --parser markdown --prose-wrap never",
-  );
+if (pkg.dependencies?.['eslint'] || pkg.devDependencies?.['eslint']) {
+	;['*.{js,ts,tsx}', '*.vue', '*.md'].forEach((key) => {
+		lintStagedValue[key].push('eslint --fix')
+	})
+}
+
+if (pkg.dependencies?.['prettier'] || pkg.devDependencies?.['prettier']) {
+	lintStagedValue['*.{js,ts,tsx}'].push('prettier --write')
+	lintStagedValue['*.vue'].push('prettier --parser=vue --write')
+	lintStagedValue['*.css'].push('prettier --write')
+	lintStagedValue['*.md'].push('prettier --write --parser markdown --prose-wrap never')
 }
 
 for (const key in lintStagedValue) {
-  if (lintStagedValue[key].length === 0) delete lintStagedValue[key];
+	if (lintStagedValue[key].length === 0) delete lintStagedValue[key]
 }
 
 if (Object.keys(lintStagedValue).length === 0) {
-  console.log(`${successIcon} successfully`);
-  fs.writeFileSync(husky_preCommit, "\n");
-  process.exit(0);
+	console.log(`${successIcon} successfully`)
+	fs.writeFileSync(husky_preCommit, '\n')
+	process.exit(0)
 }
 
-console.log(
-  "Detecting that eslint or prettier is used on a project, install lint-staged",
-);
+console.log('Detecting that eslint or prettier is used on a project, install lint-staged')
 
 pkg = {
-  ...pkg,
-  ["lint-staged"]: lintStagedValue,
-};
+	...pkg,
+	['lint-staged']: lintStagedValue
+}
 
-fs.writeFileSync(husky_preCommit, "pnpm lint-staged");
+fs.writeFileSync(husky_preCommit, 'pnpm lint-staged')
 
-fs.writeFileSync(packageJson, JSON.stringify(pkg, null, 2));
+fs.writeFileSync(packageJson, JSON.stringify(pkg, null, 2))
 
-console.log(`${loadingIcon} installing lint-staged`);
+console.log(`${loadingIcon} installing lint-staged`)
 
-execSync(`pnpm add lint-staged -D -E`, { stdio: "inherit" });
+execSync(`pnpm add lint-staged -D -E`, { stdio: 'inherit' })
 
-console.log(`${successIcon} successfully`);
+console.log(`${successIcon} successfully`)

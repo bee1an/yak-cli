@@ -1,5 +1,5 @@
 module.exports = {
-  errorIcon: "❌",
-  successIcon: "✅",
-  loadingIcon: "⏳",
-};
+	errorIcon: '❌',
+	successIcon: '✅',
+	loadingIcon: '⏳'
+}
