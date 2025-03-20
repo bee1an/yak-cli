@@ -46,10 +46,18 @@ existHusky && console.log(`${errorIcon} husky already exists`)
 
 if (existCommitlint || existHusky || !existPackageJson) process.exit(0)
 
-/* 依赖安装 */
-console.log(`${loadingIcon} installing ${dependencies.join(' ')}`)
+const { 'lint-staged': lintStage, ...restDependencies } = dependencies
 
-execSync(`pnpm add ${dependencies.join(' ')} -D -E`, { stdio: 'inherit' })
+let defaultDependencies = ''
+
+for (const key in restDependencies) {
+	defaultDependencies += `${key}@${restDependencies[key]} `
+}
+
+/* 依赖安装 */
+console.log(`${loadingIcon} installing defaultDependencies`)
+
+execSync(`pnpm add ${defaultDependencies} -D -E`, { stdio: 'inherit' })
 
 execSync('npx husky init')
 
@@ -90,7 +98,7 @@ if (Object.keys(lintStagedValue).length === 0) {
 	process.exit(0)
 }
 
-console.log('Detecting that eslint or prettier is used on a project, install lint-staged')
+console.log('Detecting that eslint or prettier is used, install lint-staged')
 
 pkg = {
 	...pkg,
@@ -101,8 +109,8 @@ fs.writeFileSync(husky_preCommit, 'pnpm lint-staged')
 
 fs.writeFileSync(packageJson, JSON.stringify(pkg, null, 2))
 
-console.log(`${loadingIcon} installing lint-staged`)
+console.log(`${loadingIcon} installing lint-staged@${lintStage}`)
 
-execSync(`pnpm add lint-staged -D -E`, { stdio: 'inherit' })
+execSync(`pnpm add lint-staged@${lintStage} -D -E`, { stdio: 'inherit' })
 
 console.log(`${successIcon} successfully`)
