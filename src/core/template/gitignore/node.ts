@@ -1,4 +1,4 @@
-module.exports = `# Logs
+export default `# Logs
 logs
 *.log
 npm-debug.log*
