@@ -2,15 +2,13 @@ import path from 'path'
 import { fileExistsSync } from '../../utils'
 import { commitlintConfigMjs, packageJson } from './paths'
 import prompts from 'prompts'
-import { errorIcon } from '../../icons/states'
+import log from '../../utils/log'
 
 export default async function (execPath: string) {
 	const existPackageJson = fileExistsSync(path.join(execPath, packageJson))
 
 	if (!existPackageJson) {
-		console.log(
-			`${errorIcon} package.json not found, please run this command in a project directory`
-		)
+		log.error('package.json not found, please run this command in a project directory')
 		return true
 	}
 

@@ -1,8 +1,8 @@
 import path from 'path'
 import fs from 'fs'
 import { husky_preCommit, packageJson } from './paths'
-import { loadingIcon } from '../../icons/states'
 import { execSync } from 'child_process'
+import log from '../../utils/log'
 
 export default async function (execPath: string, version: string) {
 	let pkg = JSON.parse(fs.readFileSync(path.join(execPath, packageJson)).toString())
@@ -35,7 +35,7 @@ export default async function (execPath: string, version: string) {
 		return true
 	}
 
-	console.log('Detecting that eslint or prettier is used, install lint-staged')
+	log('Detecting that eslint or prettier is used, install lint-staged')
 
 	pkg = {
 		...pkg,
@@ -46,7 +46,7 @@ export default async function (execPath: string, version: string) {
 
 	fs.writeFileSync(path.join(execPath, packageJson), JSON.stringify(pkg, null, 2))
 
-	console.log(`${loadingIcon} Installing lint-staged@${version}`)
+	log.loading(`Installing lint-staged@${version}`)
 
 	execSync(`pnpm add lint-staged@${version} -D -E`, { stdio: 'inherit' })
 

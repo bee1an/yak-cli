@@ -3,7 +3,7 @@ import fileDetect from './file-detect'
 import devDependencies from './dev-dependencies'
 import installNecessary from './install-necessary'
 import installLintStaged from './install-lint-staged'
-import { successIcon } from '../../icons/states'
+import log from '../../utils/log'
 
 /**
  * 自动添加git commit message规范限制
@@ -38,6 +38,6 @@ export default function (program: Command) {
 
 			exit2 && process.exit()
 
-			console.log(`${successIcon} Successfully`)
+			log.success('Successfully')
 		})
 }

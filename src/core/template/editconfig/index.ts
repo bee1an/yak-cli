@@ -1,8 +1,8 @@
 import { Command } from 'commander'
 import { fileExistsSync } from '../../../utils'
 import { join } from 'path'
-import { errorIcon, successIcon } from '../../../icons/states'
 import { writeFileSync } from 'fs'
+import log from '../../../utils/log'
 
 export default {
 	install(program: Command) {
@@ -16,13 +16,13 @@ export default {
 		const exist = fileExistsSync(join(currentExecPath, '.editorconfig'))
 
 		if (exist) {
-			console.log(`${errorIcon} .editorconfig already exists`)
+			log.error('.editorconfig already exists')
 			process.exit(0)
 		}
 
 		writeFileSync(join(currentExecPath, '.editorconfig'), template)
 
-		console.log(`${successIcon} .editorconfig created`)
+		log.success('.editorconfig created')
 	}
 }
 

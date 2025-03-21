@@ -4,7 +4,7 @@ import { writeFileSync } from 'fs'
 import { join } from 'path'
 import { fileExistsSync } from '../../../utils'
 import { execSync } from 'child_process'
-import { errorIcon, successIcon } from '../../../icons/states'
+import log from '../../../utils/log'
 
 // eslint-disable-next-line @typescript-eslint/no-empty-object-type
 export interface GitignoreTemplate {}
@@ -27,7 +27,7 @@ export default {
 		const existGitignore = fileExistsSync(join(currentExecPath, '.gitignore'))
 
 		if (existGitignore) {
-			console.log(`${errorIcon} .gitignore already exists`)
+			log.error('.gitignore already exists')
 			process.exit(0)
 		}
 
@@ -39,6 +39,6 @@ export default {
 			gitignoreTemplates[gitignore] ?? gitignoreTemplates['node']
 		)
 
-		console.log(`${successIcon} .gitignore created`)
+		log.success('.gitignore created')
 	}
 }
