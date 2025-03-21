@@ -2,7 +2,7 @@
 
 未发布到 npm, clone 这个仓库, 然后 `pnpm link -g`, 然后就可以使用了
 
-### [commitize](/src/cmd/commitize/index.js)
+### [commitnorm](/src/core/commitnorm/index.ts)
 
 自动添加git commit message规范限制
 
@@ -22,10 +22,9 @@ node -e "fs.writeFileSync(path.join(os.homedir(), '/.czrc'), JSON.stringify({ pa
 
 - lint-staged 配置参考了 naive-ui
 
-### [gitignore](/src/cmd/gitignore/index.js)
+### [template](/src/core/template/index.ts)
 
-yak-gitignore
+根据配置创建对应模板
 
-- 创建一个基于node的项目的gitignore文件
-- gitignore模板来自gitee
-- 执行文件夹不是一个git仓库时，会自动初始化一个git仓库
+- -g [xxx] 生成.gitignore模板, 默认node
+- [ ] '-l, --list' 获取模板列表

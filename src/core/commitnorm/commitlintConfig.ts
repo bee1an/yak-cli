@@ -1,4 +1,4 @@
-module.exports = `import { defineConfig } from 'cz-git'
+export default `import { defineConfig } from 'cz-git'
 
 export default defineConfig({
   extends: ['@commitlint/config-conventional'],
@@ -104,5 +104,4 @@ export default defineConfig({
     defaultSubject: ''
   }
 })
-
 `

@@ -89,7 +89,6 @@ export default defineConfig({
 		scopes: [],
 		allowCustomScopes: true,
 		allowEmptyScopes: true,
-		customScopesAlign: 'bottom',
 		customScopesAlias: 'custom',
 		emptyScopesAlias: 'empty',
 		upperCaseSubject: false,

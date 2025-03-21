@@ -1,14 +1,12 @@
-const fs = require('fs')
+import fs, { PathLike } from 'fs'
 
 /**
  * @description: 判断文件或文件夹是否存在
  */
-function fileExistsSync(filePath) {
+export function fileExistsSync(filePath: PathLike) {
 	try {
 		return fs.statSync(filePath)
-	} catch (err) {
+	} catch {
 		return false
 	}
 }
-
-module.exports = fileExistsSync
