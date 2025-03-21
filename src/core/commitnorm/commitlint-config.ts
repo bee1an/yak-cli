@@ -1,5 +1,6 @@
 export default `import { defineConfig } from 'cz-git'
 
+/** @type {import('cz-git').UserConfig} */
 export default defineConfig({
   extends: ['@commitlint/config-conventional'],
   prompt: {
