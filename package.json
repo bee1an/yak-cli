@@ -8,8 +8,8 @@
 		"write": "node ./scripts/update-readme/index.js && pnpm prettier --write README.md",
 		"prepare": "husky",
 		"prettier": "prettier --write .",
-		"dev": "tsup ./src/index.ts --config tsup.config.ts --watch",
-		"build": "tsup ./src/index.ts --config tsup.config.ts"
+		"dev": "rolldown -c rolldown.config.ts --watch",
+		"build": "rolldown -c rolldown.config.ts"
 	},
 	"bin": {
 		"yak": "./index.js"
@@ -29,7 +29,7 @@
 		"husky": "9.1.7",
 		"lint-staged": "15.5.0",
 		"prettier": "3.5.3",
-		"tsup": "8.4.0",
+		"rolldown": "1.0.0-beta.6",
 		"tsx": "4.19.3",
 		"typescript": "5.8.2",
 		"typescript-eslint": "8.27.0"
