@@ -1,3 +1,9 @@
+declare module '.' {
+	interface GitignoreTemplate {
+		node: string
+	}
+}
+
 export default `# Logs
 logs
 *.log

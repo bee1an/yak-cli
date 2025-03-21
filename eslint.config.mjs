@@ -12,7 +12,8 @@ export default [
 		rules: {
 			'@typescript-eslint/no-unused-vars': 1,
 			'@typescript-eslint/no-unused-expressions': 0,
-			'no-debugger': 0
+			'no-debugger': 0,
+			'@typescript-eslint/no-explicit-any': 0
 		}
 	}
 ]

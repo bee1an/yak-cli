@@ -6,35 +6,39 @@ import { fileExistsSync } from '../../../utils'
 import { execSync } from 'child_process'
 import { errorIcon, successIcon } from '../../../icons/states'
 
-type GitignoreTemplateKeys = 'node'
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
+export interface GitignoreTemplate {}
+type GitignoreTemplateKeys = keyof GitignoreTemplate
 
-export function gitignoreInstall(program: Command) {
-	program.option('-g, --gitignore', 'Generate .gitignore')
-}
+export default {
+	install(program: Command) {
+		program.option('-g, --gitignore [type]', 'Generate .gitignore')
+	},
 
-export function gitignoreAction(opts: { gitignore?: GitignoreTemplateKeys }) {
-	if (!opts.gitignore) return
+	action(opts: { gitignore?: GitignoreTemplateKeys }) {
+		if (!opts.gitignore) return
 
-	const { gitignore } = opts
+		const { gitignore } = opts
 
-	const gitignoreTemplates: { [k in GitignoreTemplateKeys]: string } = { node: node }
+		const gitignoreTemplates: { [k in GitignoreTemplateKeys]: string } = { node: node }
 
-	generateCore(gitignoreTemplates[gitignore] ?? gitignoreTemplates['node'])
-}
+		const currentExecPath = process.cwd()
 
-function generateCore(content: string) {
-	const currentExecPath = process.cwd()
+		const existGitignore = fileExistsSync(join(currentExecPath, '.gitignore'))
 
-	const existGitignore = fileExistsSync(join(currentExecPath, '.gitignore'))
+		if (existGitignore) {
+			console.log(`${errorIcon} .gitignore already exists`)
+			process.exit(0)
+		}
 
-	if (existGitignore) {
-		console.log(`${errorIcon} .gitignore already exists`)
-		process.exit(0)
+		const existGit = fileExistsSync(join(currentExecPath, '.git'))
+		!existGit && execSync('git init')
+
+		writeFileSync(
+			join(currentExecPath, '.gitignore'),
+			gitignoreTemplates[gitignore] ?? gitignoreTemplates['node']
+		)
+
+		console.log(`${successIcon} .gitignore created`)
 	}
-
-	const existGit = fileExistsSync(join(currentExecPath, '.git'))
-	!existGit && execSync('git init')
-
-	writeFileSync(join(currentExecPath, '.gitignore'), content)
-	console.log(`${successIcon} create .gitignore`)
 }
