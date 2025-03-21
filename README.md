@@ -1,6 +1,18 @@
 # 一些无聊的自动化脚本
 
-未发布到 npm, clone 这个仓库, 然后 `pnpm link -g`, 然后就可以使用了
+安装：
+
+```bash
+npm install -g @yakjs/cli
+```
+
+使用：
+
+```bash
+yak <command> [options]
+```
+
+## 命令：
 
 ### [commitnorm](/src/core/commitnorm/index.ts)
 
