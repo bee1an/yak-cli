@@ -7,7 +7,7 @@ const scopeComplete = execSync('git status --porcelain || true')
 	.trim()
 	.split('\n')
 	.find((r) => ~r.indexOf('M  src') || ~r.indexOf('M src'))
-	?.replace(/(\/cmd\/)/g, '%%')
+	?.replace(/(\/core\/)/g, '%%')
 	?.match(/src%%((\w|-)*)/)?.[1]
 
 /** @type {import('cz-git').UserConfig} */
