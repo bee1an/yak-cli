@@ -1,5 +1,5 @@
 {
-	"name": "yak-cmd",
+	"name": "@yakk/cli",
 	"version": "1.0.0",
 	"description": "some cmd tools",
 	"main": "index.js",
@@ -9,7 +9,8 @@
 		"prepare": "husky",
 		"prettier": "prettier --write .",
 		"dev": "rolldown -c rolldown.config.ts --watch",
-		"build": "rolldown -c rolldown.config.ts"
+		"build": "rolldown -c rolldown.config.ts",
+		"publish": "tsx ./scripts/publish.ts"
 	},
 	"bin": {
 		"yak": "./index.js"

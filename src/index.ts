@@ -2,12 +2,11 @@ import { program } from 'commander'
 
 import template from './core/template'
 import commitnorm from './core/commitnorm'
+import { version } from './version'
 
 export const name = 'yak'
 
 export const description = 'Some boring scripts'
-
-export const version = '1.0.0'
 
 const commands = [template, commitnorm]
 
