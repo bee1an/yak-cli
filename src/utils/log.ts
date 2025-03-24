@@ -49,7 +49,4 @@ log.warning = function (message: string, options?: LogOptions, ...optionalParams
 	log.call(this, message, { ...options, type: 'warning' }, ...optionalParams)
 }
 
-log.error('Error')
-log.warning('Warning')
-
 export default log

@@ -20,7 +20,7 @@ export default async function (execPath: string) {
 		const response = await prompts({
 			type: 'confirm',
 			name: 'value',
-			message: 'commitlint.config.mjs already exists, do you want to overwrite it?'
+			message: 'commitlint config or .husky already exists, do you want to overwrite it?'
 		})
 
 		if (!response.value) {
