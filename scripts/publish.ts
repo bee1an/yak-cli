@@ -1,4 +1,7 @@
-import { execSync } from 'child_process'
+import { exec, cd } from 'shelljs'
 
-execSync('pnpm build')
-execSync('npm publish')
+exec('pnpm install --frozen-lockfile')
+exec('pnpm build')
+
+cd('./dist')
+exec('npm publish')
