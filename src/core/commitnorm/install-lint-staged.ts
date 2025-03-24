@@ -1,8 +1,9 @@
 import path from 'path'
 import fs from 'fs'
-import { husky_preCommit, packageJson } from './paths'
+import { husky_preCommit, packageJson, pnpmWorkspaceYaml } from './paths'
 import { execSync } from 'child_process'
 import log from '../../utils/log'
+import { fileExistsSync } from '../../utils'
 
 export default async function (execPath: string, version: string) {
 	let pkg = JSON.parse(fs.readFileSync(path.join(execPath, packageJson)).toString())
@@ -48,7 +49,10 @@ export default async function (execPath: string, version: string) {
 
 	log.loading(`Installing lint-staged@${version}`)
 
-	execSync(`pnpm add lint-staged@${version} -D -E`, { stdio: 'inherit' })
+	execSync(
+		`pnpm add lint-staged@${version} -D -E` + (fileExistsSync(pnpmWorkspaceYaml) ? ' -w' : ''),
+		{ stdio: 'inherit' }
+	)
 
 	return false
 }
