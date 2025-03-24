@@ -30,7 +30,6 @@ export default defineConfig({
 				)
 
 				pkgContent.version = version
-				delete pkgContent.scripts
 
 				fs.mkdirSync(path.join(__dirname, 'dist'), { recursive: true })
 				const formatted = await prettier.format(JSON.stringify(pkgContent), {
