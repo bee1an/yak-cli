@@ -18,6 +18,9 @@
 	"keywords": [],
 	"author": "",
 	"license": "MIT",
+	"dependencies": {
+		"picocolors": "1.1.1"
+	},
 	"devDependencies": {
 		"@commitlint/cli": "19.8.0",
 		"@commitlint/config-conventional": "19.8.0",
@@ -45,8 +48,5 @@
 		"*.md": [
 			"prettier --write --parser markdown --prose-wrap never"
 		]
-	},
-	"dependencies": {
-		"picocolors": "1.1.1"
 	}
 }
