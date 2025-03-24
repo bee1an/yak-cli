@@ -8,14 +8,14 @@ export default {
 	install(program: Command) {
 		program.option('-p, --prettierrc', 'Generate .prettierrc')
 	},
-	action(opts: { prettierrc?: boolean }) {
+	action(opts: { prettierrc?: boolean; rewrite: boolean }) {
 		if (!opts.prettierrc) return
 
 		const currentExecPath = process.cwd()
 
 		const exist = fileExistsSync(join(currentExecPath, '.prettierrc'))
 
-		if (exist) {
+		if (exist && !opts.rewrite) {
 			log.error('.prettierrc already exists')
 			process.exit(0)
 		}

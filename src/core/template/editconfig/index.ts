@@ -8,14 +8,14 @@ export default {
 	install(program: Command) {
 		program.option('-e, --editorconfig', 'Generate .editorconfig')
 	},
-	action(opts: { editorconfig?: boolean }) {
+	action(opts: { editorconfig?: boolean; rewrite: boolean }) {
 		if (!opts.editorconfig) return
 
 		const currentExecPath = process.cwd()
 
 		const exist = fileExistsSync(join(currentExecPath, '.editorconfig'))
 
-		if (exist) {
+		if (exist && !opts.rewrite) {
 			log.error('.editorconfig already exists')
 			process.exit(0)
 		}

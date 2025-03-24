@@ -25,7 +25,7 @@ export default {
 		program.option('-i, --ignore <type>', 'Generate ignore file')
 	},
 
-	action(opts: { ignore?: IgnoreTemplateKeys }) {
+	action(opts: { ignore?: IgnoreTemplateKeys; rewrite: boolean }) {
 		if (!opts.ignore) return
 
 		const { ignore } = opts
@@ -43,7 +43,7 @@ export default {
 
 		const existIgnore = fileExistsSync(join(currentExecPath, filename))
 
-		if (existIgnore) {
+		if (existIgnore && !opts.rewrite) {
 			log.error(filename + ' already exists')
 			process.exit(0)
 		}

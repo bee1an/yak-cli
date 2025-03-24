@@ -15,7 +15,10 @@ export interface TemplatePlugin {
 }
 
 export default function (program: Command) {
-	const cmd = program.command('template').description('Generate template by option')
+	const cmd = program
+		.command('template')
+		.option('-r, --rewrite', 'Rewrite the file if it exists')
+		.description('Generate template by option')
 
 	const plugins: TemplatePlugin[] = [ignore, editconfig, prettierrc]
 
