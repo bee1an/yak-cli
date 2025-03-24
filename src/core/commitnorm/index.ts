@@ -9,6 +9,7 @@ import log from '../../utils/log'
  * 自动添加git commit message规范限制
  * 依赖 husky @commitlint/cli @commitlint/config-conventional cz-git commitizen lint-staged
  * 当项目安装了eslint或prettier时，才会依赖**lint-staged**
+ * lint-staged 配置参考了 naive-ui
  * 全局安装commitizen cz-git
  * ```bash
  * npm install -g commitizen cz-git
@@ -17,7 +18,6 @@ import log from '../../utils/log'
  * ```bash
  * node -e "fs.writeFileSync(path.join(os.homedir(), '/.czrc'), JSON.stringify({ path: 'cz-git', useEmoji: true }))"
  * ```
- * lint-staged 配置参考了 naive-ui
  */
 
 export default function (program: Command) {

@@ -5,8 +5,12 @@ import prettierrc from './prettierrc'
 
 /**
  * 根据配置创建对应模板
- * -g [xxx] 生成.gitignore模板, 默认node
+ * -i git-node 生成.gitignore node模板
+ * -i prettier 生成.prettierignore模板
+ * -i eslint 生成.eslintignore模板
+ * -p 生成.prettierrc模板
  * -e 生成.editorconfig模板
+ * 所有命令都支持-r参数，强制覆盖已存在的文件
  */
 
 export interface TemplatePlugin {

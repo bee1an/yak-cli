@@ -20,6 +20,7 @@ yak <command> [options]
 
 - 依赖 husky @commitlint/cli @commitlint/config-conventional cz-git commitizen lint-staged
 - 当项目安装了eslint或prettier时，才会依赖**lint-staged**
+- lint-staged 配置参考了 naive-ui
 - 全局安装commitizen cz-git
 
 ```bash
@@ -32,11 +33,20 @@ npm install -g commitizen cz-git
 node -e "fs.writeFileSync(path.join(os.homedir(), '/.czrc'), JSON.stringify({ path: 'cz-git', useEmoji: true }))"
 ```
 
-- lint-staged 配置参考了 naive-ui
+### [prettier](/src/core/prettier/index.ts)
+
+自动添加prettier配置
+
+- 依赖 prettier@3.5.3
+- [ ] 添加脚本
 
 ### [template](/src/core/template/index.ts)
 
 根据配置创建对应模板
 
-- -g [xxx] 生成.gitignore模板, 默认node
+- -i git-node 生成.gitignore node模板
+- -i prettier 生成.prettierignore模板
+- -i eslint 生成.eslintignore模板
+- -p 生成.prettierrc模板
 - -e 生成.editorconfig模板
+- 所有命令都支持-r参数，强制覆盖已存在的文件

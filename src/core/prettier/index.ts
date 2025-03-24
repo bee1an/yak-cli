@@ -9,6 +9,11 @@ import log from '../../utils/log'
 
 const prettierVersion = '3.5.3'
 
+/**
+ * 自动添加prettier配置
+ * 依赖 prettier@3.5.3
+ * [ ] 添加脚本
+ */
 export default function (program: Command) {
 	program
 		.command('prettier')
@@ -20,10 +25,6 @@ export default function (program: Command) {
 			log.loading('Detecting')
 			const exit = await fileDetect(currentExecPath)
 			exit && process.exit()
-
-			log.loading('Writing')
-			execSync('yak template -p -r')
-			execSync('yak template -i prettier -r')
 
 			const installOption = isMonorepo(currentExecPath) ? ' -w' : ''
 
@@ -40,6 +41,11 @@ export default function (program: Command) {
 
 			log.loading(installLog)
 			execSync(`pnpm add prettier@${prettierVersion} -D -E` + installOption, { stdio: 'inherit' })
+
+			log.loading('Writing')
+			execSync('yak template -p -r')
+			execSync('yak template -i prettier -r')
+
 			log.success('Successfully')
 		})
 }
