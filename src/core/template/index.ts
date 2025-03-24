@@ -1,5 +1,6 @@
 import { Command } from 'commander'
 import gitignore from './gitignore'
+import ignore from './ignore'
 import editconfig from './editconfig'
 import prettierrc from './prettierrc'
 
@@ -17,7 +18,7 @@ export interface TemplatePlugin {
 export default function (program: Command) {
 	const cmd = program.command('template').description('Generate template by option')
 
-	const plugins: TemplatePlugin[] = [gitignore, editconfig, prettierrc]
+	const plugins: TemplatePlugin[] = [gitignore, ignore, editconfig, prettierrc]
 
 	plugins.forEach((plugin) => {
 		plugin.install(cmd)

@@ -1,6 +1,6 @@
 declare module '.' {
-	interface GitignoreTemplate {
-		node: string
+	interface IgnoreTemplate {
+		'git-node': string
 	}
 }
 
