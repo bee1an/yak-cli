@@ -1,13 +1,14 @@
 import pc from 'picocolors'
 
 interface LogOptions {
-	type: 'loading' | 'success' | 'error' | 'warning'
+	type: 'loading' | 'success' | 'error' | 'warning' | 'info'
 }
 
 const errorIcon = '❌'
 const successIcon = '✅'
 const loadingIcon = '☕️'
 const warningIcon = '🔔'
+const infoIcon = '💡'
 
 function log(message: string, options?: LogOptions, ...optionalParams: any[]) {
 	const { type } = options || {}
@@ -31,6 +32,10 @@ function log(message: string, options?: LogOptions, ...optionalParams: any[]) {
 			message = pc.yellow(message)
 			messageIcon = warningIcon + ' '
 			break
+		case 'info':
+			message = pc.blue(message)
+			messageIcon = infoIcon + ' '
+			break
 	}
 
 	console.log(messageIcon + message, ...optionalParams)
@@ -47,6 +52,9 @@ log.loading = function (message: string, options?: LogOptions, ...optionalParams
 }
 log.warning = function (message: string, options?: LogOptions, ...optionalParams: any[]) {
 	log.call(this, message, { ...options, type: 'warning' }, ...optionalParams)
+}
+log.info = function (message: string, options?: LogOptions, ...optionalParams: any[]) {
+	log.call(this, message, { ...options, type: 'info' }, ...optionalParams)
 }
 
 export default log
