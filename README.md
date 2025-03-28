@@ -50,3 +50,18 @@ node -e "fs.writeFileSync(path.join(os.homedir(), '/.czrc'), JSON.stringify({ pa
 - -p 生成.prettierrc模板
 - -e 生成.editorconfig模板
 - 所有命令都支持-r参数，强制覆盖已存在的文件
+
+### [terminalposh](/src/core/terminalposh/index.ts)
+
+美化终端(PowerShell & Windows Terminal)
+
+- 前置条件: Windows Terminal & winget
+- 依赖项: clink@1.7.12, oh-my-posh@25.5.1, CascadiaCode Nerd Font
+- 在命令结束后根据提示修改vscode终端字体
+- 将下面代码复制到 vscode settings.json 中
+
+```json
+{
+	"terminal.integrated.fontFamily": "CaskaydiaCove Nerd Font"
+}
+```

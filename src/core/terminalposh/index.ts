@@ -14,6 +14,18 @@ import pc from 'picocolors'
 
 const fontUrl = 'https://github.com/ryanoasis/nerd-fonts/releases/download/v3.3.0/CascadiaCode.zip'
 
+/**
+ * 美化终端(PowerShell & Windows Terminal)
+ * 前置条件: Windows Terminal & winget
+ * 依赖项: clink@1.7.12, oh-my-posh@25.5.1, CascadiaCode Nerd Font
+ * 在命令结束后根据提示修改vscode终端字体
+ * 将下面代码复制到 vscode settings.json 中
+ * ```json
+ * {
+ * 	"terminal.integrated.fontFamily": "CaskaydiaCove Nerd Font"
+ * }
+ * ```
+ */
 export default function (program: Command) {
 	program
 		.command('terminalposh')
