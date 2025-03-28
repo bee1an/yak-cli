@@ -9,7 +9,7 @@ async function publish() {
 	exec('npm pkg fix')
 
 	const { otp } = await prompts({
-		type: 'number',
+		type: 'text',
 		name: 'otp',
 		message: 'please input your one-time password'
 	})

@@ -56,12 +56,11 @@ node -e "fs.writeFileSync(path.join(os.homedir(), '/.czrc'), JSON.stringify({ pa
 美化终端(PowerShell & Windows Terminal)
 
 - 前置条件: Windows Terminal & winget
-- 依赖项: clink@1.7.12, oh-my-posh@25.5.1, CascadiaCode Nerd Font
-- 在命令结束后根据提示修改vscode终端字体
-- 将下面代码复制到 vscode settings.json 中
-
-```json
-{
-	"terminal.integrated.fontFamily": "CaskaydiaCove Nerd Font"
-}
-```
+- 依赖项: clink@1.7.12, oh-my-posh@25.5.1
+- -c, --config <font | pw> 配置字体或者PowerShell
+- --install 安装 oh-my-posh & clink
+- -p, --prediction 命令执行的前置条件(判断是否有Windows Terminal & winget)
+- --no-prediction 关闭前置条件判断
+- --prettier-wt 美化 Windows Terminal
+- -u, --upgrade-pw 升级PowerShell
+- -i, --init 相当于执行yak terminalposh --prediction --install --prettier-wt --upgrade-pw --config pw
