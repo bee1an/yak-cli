@@ -66,11 +66,11 @@ export const psConfigCmds = [
 ]
 
 /**
+ * @description pwsh profile 文件夹路径
+ */
+export const pwProfileDir = join(process.env.USERPROFILE!, 'Documents', 'PowerShell')
+
+/**
  * @description pwsh profile 文件路径
  */
-export const pwProfilePath = join(
-	process.env.USERPROFILE!,
-	'Documents',
-	'PowerShell',
-	'Microsoft.PowerShell_profile.ps1'
-)
+export const pwProfilePath = join(pwProfileDir, 'Microsoft.PowerShell_profile.ps1')

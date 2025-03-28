@@ -1,7 +1,14 @@
-import { readFileSync, writeFileSync } from 'fs'
+import { mkdirSync, readFileSync, writeFileSync } from 'fs'
 import { isInstalled } from '../../../utils/is-installed'
 import { OptionFlow } from '../../../utils/use-options'
-import { pwId, pwExEPath, pwProfilePath, wtSettingsPath, psConfigCmds } from '../constant'
+import {
+	pwId,
+	pwExEPath,
+	pwProfilePath,
+	wtSettingsPath,
+	psConfigCmds,
+	pwProfileDir
+} from '../constant'
 import log from '../../../utils/log'
 import { execSync } from 'child_process'
 import { fileExistsSync } from '../../../utils'
@@ -57,6 +64,8 @@ const optionFlow: OptionFlow = {
 			execSync(
 				`powershell -Command "Start-Process PowerShell -Verb RunAs '${psConfigCmds.join(';')}'"`
 			)
+
+			!fileExistsSync(pwProfileDir) && mkdirSync(pwProfileDir)
 
 			if (fileExistsSync(pwProfilePath)) {
 				const config = Array.from(new Set(readFileSync(pwProfilePath).toString().split('\n')))
