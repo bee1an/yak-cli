@@ -28,6 +28,20 @@ export default {
 	action(opts: { ignore?: IgnoreTemplateKeys; rewrite: boolean }) {
 		if (!opts.ignore) return
 
+		if (opts.ignore === 'eslint') {
+			log.warning(
+				'Eslintrc format is deprecated, please using the flat config format in your eslint.config.{js,mjs}'
+			)
+			log('\n```js')
+			log("  import { defineConfig, globalIgnores } from 'eslint/config'")
+			log(
+				"  export default defineConfig([globalIgnores(['node_modules', 'dist', '*.css', '*.jpg', '*.jpeg', '*.png', '*.gif', '*.d.ts'])])"
+			)
+			log('```\n')
+			log('Details: https://eslint.org/docs/latest/use/configure/ignore')
+			return
+		}
+
 		const { ignore } = opts
 		const type = ignore.split('-')[0] as IgnoreType
 
