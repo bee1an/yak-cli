@@ -1,6 +1,6 @@
 import { execSync } from 'child_process'
 import { Command } from 'commander'
-import { clink, ohMyPosh } from './packageIds'
+import { clink, ohMyPosh, pw } from './packageIds'
 import { isInstalled } from '../../utils/is-installed'
 import { downloadZip } from '../../utils/download'
 import log from '../../utils/log'
@@ -52,13 +52,12 @@ export default function (program: Command) {
 
 			// #region install oh-my-posh & clink
 			log.loading('Installing oh-my-posh & clink')
-			const ompExist = isInstalled(ohMyPosh)
-			!ompExist &&
-				execSync(`winget install ${ohMyPosh} --version 25.5.1 -s winget`, { stdio: 'inherit' })
+			!isInstalled(ohMyPosh) &&
+				execSync(`winget install --id ${ohMyPosh} --version 25.5.1 -s winget`, { stdio: 'inherit' })
 
 			// 安装clink
-			const clinkExist = isInstalled(clink)
-			!clinkExist && execSync(`winget install ${clink} --version 1.7.12`, { stdio: 'inherit' })
+			!isInstalled(clink) &&
+				execSync(`winget install --id ${clink} --version 1.7.12`, { stdio: 'inherit' })
 			// #endregion
 
 			// #region install font
@@ -151,62 +150,71 @@ export default function (program: Command) {
 			// #region upgrade powershell
 			log.loading('Try to upgrade powershell')
 			// 尝试升级powershell
-			try {
-				execSync('winget install --id Microsoft.Powershell -s winget', { stdio: 'inherit' })
-				log.success('Upgrade powershell success')
-				// #endregion
-			} catch {
-				// 忽略错误
-				log.error('Upgrade or prettier powershell failed')
+
+			let installPwError = false
+			if (!isInstalled(pw)) {
+				try {
+					execSync('winget install --id Microsoft.PowerShell --version 7.5.0.0 -s winget', {
+						stdio: 'inherit'
+					})
+					log.success('Upgrade powershell success')
+					// #endregion
+				} catch {
+					installPwError = true
+					// 忽略错误
+					log.error('Upgrade or prettier powershell failed')
+				}
 			}
 
-			// #region config powershell
-			const powershellItem = profiles.list.find((itme: any) => itme.name === 'Windows PowerShell')
-			// 修改powershell的启动命令为最新安装的powershell
-			powershellItem.commandline = process.env.ProgramFiles + '\\PowerShell\\7\\pwsh.exe'
+			if (!installPwError) {
+				// #region config powershell
+				const powershellItem = profiles.list.find((itme: any) => itme.name === 'Windows PowerShell')
+				// 修改powershell的启动命令为最新安装的powershell
+				powershellItem.commandline = process.env.ProgramFiles + '\\PowerShell\\7\\pwsh.exe'
 
-			log.loading('Configuring your powershell')
-			const psCmds = [
-				// 设置 PowerShell 的执行策略为 RemoteSigned
-				'set-executionpolicy RemoteSigned',
-				// // 查看 PowerShell 的输出编码格式
-				'$OutputEncoding',
-				// // powershell初始化加载 PSReadLine 模块
-				'Import-Module PSReadLine',
-				// // 使用历史记录进行脚本提示
-				'Set-PSReadLineOption -PredictionSource History'
-				// alt在windows中有特殊用途，使用Tab键代替
-				// 'Set-PSReadLineKeyHandler -Chord "Tab" -Function ForwardWord'
-			]
+				log.loading('Configuring your powershell')
+				const psCmds = [
+					// 设置 PowerShell 的执行策略为 RemoteSigned
+					'set-executionpolicy RemoteSigned',
+					// // 查看 PowerShell 的输出编码格式
+					'$OutputEncoding',
+					// // powershell初始化加载 PSReadLine 模块
+					'Import-Module PSReadLine',
+					// // 使用历史记录进行脚本提示
+					'Set-PSReadLineOption -PredictionSource History'
+					// alt在windows中有特殊用途，使用Tab键代替
+					// 'Set-PSReadLineKeyHandler -Chord "Tab" -Function ForwardWord'
+				]
 
-			// 使用管理员权限运行powershell并执行这些命令
-			execSync(`powershell -Command "Start-Process PowerShell -Verb RunAs '${psCmds.join(';')}'"`)
+				// 使用管理员权限运行powershell并执行这些命令
+				execSync(`powershell -Command "Start-Process PowerShell -Verb RunAs '${psCmds.join(';')}'"`)
 
-			const psProfile = join(
-				process.env.USERPROFILE!,
-				'Documents',
-				'WindowsPowerShell',
-				'Microsoft.PowerShell_profile.ps1'
-			)
-
-			if (fileExistsSync(psProfile)) {
-				const config = readFileSync(
-					join(
-						process.env.USERPROFILE!,
-						'Documents',
-						'WindowsPowerShell',
-						'Microsoft.PowerShell_profile.ps1'
-					)
+				const psProfile = join(
+					process.env.USERPROFILE!,
+					'Documents',
+					'WindowsPowerShell',
+					'Microsoft.PowerShell_profile.ps1'
 				)
-					.toString()
-					.split('\n')
 
-				config.push('oh-my-posh init pwsh  | Invoke-Expression')
-				writeFileSync(psProfile, config.join('\n'))
-			} else {
-				writeFileSync(psProfile, 'oh-my-posh init pwsh  | Invoke-Expression')
+				if (fileExistsSync(psProfile)) {
+					const config = readFileSync(
+						join(
+							process.env.USERPROFILE!,
+							'Documents',
+							'WindowsPowerShell',
+							'Microsoft.PowerShell_profile.ps1'
+						)
+					)
+						.toString()
+						.split('\n')
+
+					config.push('oh-my-posh init pwsh  | Invoke-Expression')
+					writeFileSync(psProfile, config.join('\n'))
+				} else {
+					writeFileSync(psProfile, 'oh-my-posh init pwsh  | Invoke-Expression')
+				}
+				// #endregion config powershell
 			}
-			// #endregion config powershell
 
 			writeFileSync(settingsPath, JSON.stringify(settings, null, 2))
 
