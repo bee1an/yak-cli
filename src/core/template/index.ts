@@ -1,5 +1,6 @@
 import { Command } from 'commander'
 import ignore from './ignore'
+import normalizecss from './normalizecss'
 import editconfig from './editconfig'
 import prettierrc from './prettierrc'
 
@@ -24,7 +25,7 @@ export default function (program: Command) {
 		.option('-r, --rewrite', 'Rewrite the file if it exists')
 		.description('Generate template by option')
 
-	const plugins: TemplatePlugin[] = [ignore, editconfig, prettierrc]
+	const plugins: TemplatePlugin[] = [ignore, normalizecss, editconfig, prettierrc]
 
 	plugins.forEach((plugin) => {
 		plugin.install(cmd)
